@@ -93,11 +93,15 @@
                 </div>
                 <div class="panel-body" id="all">
                 </div>
+                <table class="table" id="results">
+  				</table>
             </div>
         </div>
         <!-- Most Recent Member Panel -->
     </div>
     <!-- Script -->
+
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script>
     function inputFocus(i) {
         if (i.value == i.defaultValue) {
@@ -134,16 +138,27 @@
     var role = "";
     var sDate = 0;
     var salary = "";
+    var cDate = "";
+    var months = "";
+    var billed = "";
 
     // Capture Button Click
     $("#add-employee").on("click", function(event) {
         event.preventDefault();
+
+        
 
         // Grabbed values from text boxes
         name = $("#name-input").val().trim();
         role = $("#role-input").val().trim();
         sDate = $("#sDate-input").val().trim();
         salary = $("#salary-input").val().trim();
+        //console.log(sDate);
+        
+        //console.log(cDate);
+        //months = moment(cDate).diff(moment(), "months");
+
+        //console.log(months);
 
         // Code for handling the push
         database.ref().push({
@@ -162,10 +177,10 @@
         var sv = snapshot.val();
 
         // Console.loging the last user's data
-        console.log(sv.name);
-        console.log(sv.role);
-        console.log(sv.sDate);
-        console.log(sv.salary);
+        //console.log(sv.name);
+        //console.log(sv.role);
+        //console.log(sv.sDate);
+        //console.log(sv.salary);
 
         // Change the HTML to reflect
         $("#name-display").html(sv.name);
@@ -184,10 +199,15 @@
 
     database.ref().on("child_added", function(snapshot) {
         var sv = snapshot.val();
-        console.log(sv);
+        //console.log(sv);
         var record = $("<div>");
+
+        cDate = moment(sDate).format("YYYY/MM/DD");
+        months = moment().diff(moment(cDate), "months");
+        billed = months * sv.salary;
+
         record.addClass("result-card");
-        record.append(sv.name + " " + sv.role + " " + sv.sDate + " " + sv.salary)
+        record.append("Name: " + sv.name + " | Role: " + sv.role + " | Start Date: " + sv.sDate + " | Monthly Salary: " + sv.salary + " | Months Since Hire: " + months + " | Amount Billed: " + billed)
         $("#all").append(record);
     })
     </script>
