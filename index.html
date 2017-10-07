@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sign-Up Today!</title>
+    <title>HR</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- LINK TO FIREBASE GOES HERE -->
@@ -21,7 +21,7 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Most Recent Member</h3>
+                    <h3 class="panel-title">Recent Entries</h3>
                 </div>
                 <div class="panel-body" id="recent-member">
                     <h2 id="name-display"></h2>
@@ -92,7 +92,7 @@
     var salary = "";
 
     // Capture Button Click
-    $("#add-user").on("click", function(event) {
+    $("#add-employee").on("click", function(event) {
         event.preventDefault();
 
         // Grabbed values from text boxes
