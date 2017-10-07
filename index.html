@@ -4,11 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>HR</title>
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- LINK TO FIREBASE GOES HERE -->
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <style type="text/css">
+    .jumbotron {
+        background: black;
+        color: white;
+    }
+
+    .panel-heading {
+        background: navy;
+        color: white;
+        margin-top: -1px;
+        margin-left: -1px;
+    }
+
+
+
+    .result-card {
+        background-color: #ecf0f1;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
     </style>
 </head>
 
@@ -16,14 +38,15 @@
     <div class="container">
         <br>
         <!-- Jumbotron -->
-        <div class="jumbotron">
-            <h1 class="text-center">Employee Data Management</h1>
-        </div>
-
         <div class="row">
-            <div class="panel panel-default">
+            <div class="jumbotron">
+                <h1 class="text-center">Employee Data Management</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Recent Entries</h3>
+                    <h3 class="panel-title">Most Recent Entry</h3>
                 </div>
                 <div class="panel-body" id="recent-member">
                     <h2 id="name-display"></h2>
@@ -35,7 +58,7 @@
         </div>
         <div class="row">
             <!-- Sign-Up Panel-->
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Add New Employee</h3>
                 </div>
@@ -44,43 +67,51 @@
                     <form role="form">
                         <div class="form-group">
                             <label for="name-input">Name:</label>
-                            <input class="form-control" id="name-input" type="text">
+                            <input class="form-control" id="name-input" type="text" style="color:#888;" value="Employee Name" onfocus="inputFocus(this)" onblur="inputBlur(this)">
                         </div>
                         <div class="form-group">
                             <label for="text-input">Role:</label>
-                            <input class="form-control" id="role-input" type="text">
+                            <input class="form-control" id="role-input" type="text" style="color:#888;" value="Employee Role" onfocus="inputFocus(this)" onblur="inputBlur(this)">
                         </div>
                         <div class="form-group">
                             <label for="sDate-input">Start Date: </label>
-                            <input class="form-control" id="sDate-input" type="number">
+                            <input class="form-control" id="sDate-input" type="date" style="color:#888;" value="Employee Start Date" onfocus="inputFocus(this)" onblur="inputBlur(this)">
                         </div>
                         <div class="form-group">
                             <label for="age-input">Monthly Salary: </label>
-                            <input class="form-control" id="salary-input" type="number">
+                            <input class="form-control" id="salary-input" type="text" style="color:#888;" value="Employee Salary" onfocus="inputFocus(this)" onblur="inputBlur(this)">
                         </div>
-                        <button class="btn btn-default" id="add-employee" type="submit">Submit</button>
+                        <button class="btn btn-primary" id="add-employee" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
-
         <div class="row">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">All Entries</h3>
                 </div>
                 <div class="panel-body" id="all">
-                    
                 </div>
             </div>
         </div>
         <!-- Most Recent Member Panel -->
-        
     </div>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Script -->
     <script>
+    function inputFocus(i) {
+        if (i.value == i.defaultValue) {
+            i.value = "";
+            i.style.color = "#000";
+        }
+    }
+
+    function inputBlur(i) {
+        if (i.value == "") {
+            i.value = i.defaultValue;
+            i.style.color = "#888";
+        }
+    }
     // ========================================== START CODING BELOW!!
 
     // Initialize Firebase
@@ -151,12 +182,14 @@
         console.log("Errors handled: " + errorObject.code);
     });
 
-    database.ref().on("child_added", function(snapshot){
-    	var sv = snapshot.val();
-    	console.log(sv);
-    	$("#all").append("<div>" + sv.name + " " + sv.role + " " + sv.sDate + " " + sv.salary);
+    database.ref().on("child_added", function(snapshot) {
+        var sv = snapshot.val();
+        console.log(sv);
+        var record = $("<div>");
+        record.addClass("result-card");
+        record.append(sv.name + " " + sv.role + " " + sv.sDate + " " + sv.salary)
+        $("#all").append(record);
     })
-
     </script>
 </body>
 
