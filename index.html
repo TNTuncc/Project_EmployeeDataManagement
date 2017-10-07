@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- LINK TO FIREBASE GOES HERE -->
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <style type="text/css">
+    </style>
 </head>
 
 <body>
@@ -58,6 +60,17 @@
                         </div>
                         <button class="btn btn-default" id="add-employee" type="submit">Submit</button>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">All Entries</h3>
+                </div>
+                <div class="panel-body" id="all">
+                    
                 </div>
             </div>
         </div>
@@ -129,10 +142,21 @@
         $("#sDate-display").html(sv.sDate);
         $("#salary-display").html(sv.salary);
 
+
+
+
+
         // Handle the errors
     }, function(errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
+
+    database.ref().on("child_added", function(snapshot){
+    	var sv = snapshot.val();
+    	console.log(sv);
+    	$("#all").append("<div>" + sv.name + " " + sv.role + " " + sv.sDate + " " + sv.salary);
+    })
+
     </script>
 </body>
 
